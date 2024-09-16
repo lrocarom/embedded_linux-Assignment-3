@@ -1,4 +1,15 @@
 #include "systemcalls.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <fcntl.h>
+
+
+#include  <sys/types.h>
+#include <sys/wait.h>
+
+
+#include <unistd.h>
 
 /**
  * @param cmd the command to execute with system()
@@ -9,7 +20,13 @@
 */
 bool do_system(const char *cmd)
 {
+    int rv = system(cmd);
 
+    if(rv != 0){
+
+        return false;
+
+    }
 /*
  * TODO  add your code here
  *  Call the system() function with the command set in the cmd
@@ -45,9 +62,12 @@ bool do_exec(int count, ...)
         command[i] = va_arg(args, char *);
     }
     command[count] = NULL;
+
+    va_end(args);
+
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
+    // command[count] = command[count];
 
 /*
  * TODO:
@@ -58,10 +78,57 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+    //char** commandArgs = &command[1];
 
-    va_end(args);
 
-    return true;
+    bool rv = true;
+
+    printf("First command %s \n",command[0] );
+
+    pid_t childId = fork();
+
+    if (childId != 0 ){
+
+        int status;
+        
+        if (waitpid(childId, &status, 0) == -1) {
+
+
+            rv = false;
+
+        }
+        else if (WIFEXITED(status)) { // child exited normally
+        
+
+            return (WEXITSTATUS(status) == 0);
+        
+
+        }
+
+        else{
+
+            rv = false;
+        }
+
+    }
+
+    else{
+
+
+        execv(command[0], &command[0]);    
+
+        perror("execv");
+        
+        exit(EXIT_FAILURE);    
+
+        rv = false;
+
+    }
+
+
+
+
+    return rv;
 }
 
 /**
@@ -80,10 +147,10 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
         command[i] = va_arg(args, char *);
     }
     command[count] = NULL;
+    va_end(args);
+
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
-
 
 /*
  * TODO
@@ -92,8 +159,43 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   The rest of the behaviour is same as do_exec()
  *
 */
+    bool rv = true;
 
-    va_end(args);
+    //char** commandArgs = &command[1];
 
-    return true;
+    int fd = creat(outputfile, 0644);
+    
+    int childId = fork();
+
+    if (childId == -1) {
+        perror("fork");
+        return false;
+    }
+
+    if (childId != 0 ){
+
+        wait(NULL);
+
+    }
+    else{
+
+        if (dup2(fd, 1) < 0)
+        {
+            rv =  false;
+        }
+        close(fd);
+
+
+        //char *shArgs[] = { "/bin/sh", "-c", command, NULL };
+
+
+        execv(command[0], &command[0]);
+
+        rv =  false;
+
+    }
+
+
+    return rv;
+
 }
