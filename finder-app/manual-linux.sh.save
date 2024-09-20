@@ -4,16 +4,14 @@
 
 set -e
 set -u
-export PATH=$PATH:/home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/arm-gnu-toolchain-13.3.rel1-x86_64-aarch64-none-linux-gnu/bin
 
-OUTDIR=/tmp/aeld
+OUTDIR=OUTDIR=/tmp/aeld
 KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_VERSION=v5.15.163
 BUSYBOX_VERSION=1_33_1
 FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
-
 
 if [ $# -lt 1 ]
 then
@@ -37,29 +35,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
-
-#    make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- mrproper
-
-#    make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- defconfig
-
- #   make -j4 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
-     
- #   make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
-
- #   make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- dtbs
-    
-  #  cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}
-
-
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
-    make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
-    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} dtbs
-
 fi
-
-cp ${OUTDIR}/linux-stable/arch/arm64/boot/Image ${OUTDIR}
 
 echo "Adding the Image in outdir"
 
@@ -83,7 +59,6 @@ mkdir -p "${OUTDIR}/rootfs/dev"
 mkdir -p "${OUTDIR}/rootfs/proc"
 mkdir -p "${OUTDIR}/rootfs/proc"
 mkdir -p "${OUTDIR}/rootfs/tmp"
-mkdir -p "${OUTDIR}/rootfs/home/root"
 
 
 #cd "$OUTDIR"
@@ -96,16 +71,15 @@ git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
-    make distclean
-    make defconfig
-    make ARCH=${ARCH}
-    CROSS_COMPILE=${CROSS_COMPILE}
-    make CONFIG_PREFIX="${OUTDIR}/rootfs"  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 else
     cd busybox
 fi
 
-
+make distclean
+make defconfig
+make ARCH=${ARCH}
+CROSS_COMPILE=${CROSS_COMPILE}
+make CONFIG_PREFIX="${OUTDIR}/rootfs"  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 
 # TODO: Make and install busybox
 
