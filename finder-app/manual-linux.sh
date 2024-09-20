@@ -12,9 +12,10 @@ OUTDIR=/tmp/aeld
 KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_VERSION=v5.15.163
 BUSYBOX_VERSION=1_33_1
-FINDER_APP_DIR=$(realpath $(dirname $0))
 ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
+SYSROOT=/
+DIR_PATH=$(pwd)
 
 
 if [ $# -lt 1 ]
@@ -104,11 +105,11 @@ git clone git://busybox.net/busybox.git
     make defconfig
     make ARCH=${ARCH}
     CROSS_COMPILE=${CROSS_COMPILE}
-    make CONFIG_PREFIX="${OUTDIR}/rootfs"  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 else
     cd busybox
 fi
 
+make CONFIG_PREFIX="${OUTDIR}/rootfs"  ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
 
 
 # TODO: Make and install busybox
@@ -121,12 +122,11 @@ ${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
 ${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-sudo cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/arm-gnu-toolchain-13.3.rel1-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib/ld-linux-aarch64.so.1  lib
 
-sudo cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/arm-gnu-toolchain-13.3.rel1-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libm.so.6   lib64
-sudo cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/arm-gnu-toolchain-13.3.rel1-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libresolv.so.2  lib64
-sudo cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/arm-gnu-toolchain-13.3.rel1-x86_64-aarch64-none-linux-gnu/aarch64-none-linux-gnu/libc/lib64/libc.so.6  lib64
-
+cp -a ${SYSROOT}/lib/ld-linux-aarch64.so.1 lib
+cp -a ${SYSROOT}/lib64/libm.so.6 lib64
+cp -a ${SYSROOT}/lib64/libresolv.so.2 lib64
+cp -a ${SYSROOT}/lib64/libc.so.6 lib64
 
 # TODO: Make device nodes
 
@@ -144,20 +144,17 @@ sudo mknod -m 600 dev/console c 5 1
 
 mkdir -p home/root/conf
 
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/unit-test.sh home/
+cp ${DIR_PATH}/../unit-test.sh home/
 
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/conf/username.txt home/conf
+cp ${DIR_PATH}/../conf/username.txt home/conf
 
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/conf/assignment.txt home/conf
+cp ${DIR_PATH}/../conf/assignment.txt home/conf
 
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/finder-app/finder-test.sh home/
+cp ${DIR_PATH}/finder-test.sh home/
 
+cp ${DIR_PATH}/autorun-qemu.sh home/
 
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/finder-app/autorun-qemu.sh home/
-
-
-
-cp /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T1/linux_training/finder-app/writer home/root/
+cp ${DIR_PATH}/writer home/root/
 # TODO: Chown the root directory
 
 chmod 744 home/root
