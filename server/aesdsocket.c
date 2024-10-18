@@ -109,6 +109,10 @@ static void signal_handler( int signal_name){
 
 int main(int argc, char *argv[]) {
 
+	signal(SIGINT, signal_handler);
+
+    signal(SIGTERM, signal_handler);
+
 	struct addrinfo info;
 
 	memset(&info, 0, sizeof(info));
@@ -151,10 +155,8 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-    signal(SIGINT, signal_handler);
+	freeaddrinfo(info_res);
 
-
-    signal(SIGTERM, signal_handler);
 
 	while (exec){
 
@@ -191,7 +193,6 @@ int main(int argc, char *argv[]) {
 
 	}	
 
-	freeaddrinfo(info_res);
 
 	return 0;
 
