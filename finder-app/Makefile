@@ -1,17 +1,13 @@
-CC=$(CROSS_COMPILE)gcc
-CFLAGS=-c -Wall
-SOURCE=writer.c
-OBJ=$(SOURCE:.c=.o)
-EXE=writer
+SHELL:= /bin/sh
+
+all: writer
 
 
-all: $(SOURCE) $(EXE)
+writer: writer.o
+	$(CROSS_COMPILE)gcc -g -Wall -I/ writer.o -o writer
 
-$(EXE): $(OBJ)
-	$(CC) $(OBJ) -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) $< -o $@
+writer.o: writer.c
+	$(CROSS_COMPILE)gcc -g -Wall -c -o writer.o writer.c
 
 clean:
-	rm -rf $(OBJ) $(EXE)
+	rm -f *.o *.elf *.map writer
