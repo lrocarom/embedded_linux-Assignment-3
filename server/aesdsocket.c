@@ -103,7 +103,6 @@ static void signal_handler( int signal_name){
 		exec = false;
 		remove(routeName);
 	}
-	return 0;
 
 }
 
