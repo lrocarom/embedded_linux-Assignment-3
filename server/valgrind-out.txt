@@ -1,114 +1,203 @@
-==1186894== Memcheck, a memory error detector
-==1186894== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1186894== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
-==1186894== Command: ./aesdsocket
-==1186894== Parent PID: 1186892
-==1186894== 
---1186894-- 
---1186894-- Valgrind options:
---1186894--    --error-exitcode=1
---1186894--    --leak-check=full
---1186894--    --show-leak-kinds=all
---1186894--    --track-origins=yes
---1186894--    --errors-for-leak-kinds=definite
---1186894--    --verbose
---1186894--    --log-file=valgrind-out.txt
---1186894-- Contents of /proc/version:
---1186894--   Linux version 5.15.0-122-generic (buildd@lcy02-amd64-106) (gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #132~20.04.1-Ubuntu SMP Fri Aug 30 15:50:07 UTC 2024
---1186894-- 
---1186894-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
---1186894-- Page sizes: currently 4096, max supported 4096
---1186894-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
---1186894-- Reading syms from /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket
---1186894-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
---1186894--   Considering /usr/lib/debug/.build-id/db/0420f708b806cf03260aadb916c330049580b7.debug ..
---1186894--   .. build-id is valid
---1186894-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
---1186894--    object doesn't have a symbol table
---1186894--    object doesn't have a dynamic symbol table
---1186894-- Scheduler: using generic scheduler lock implementation.
---1186894-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
-==1186894== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-1186894-by-lroca-on-???
-==1186894== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-1186894-by-lroca-on-???
-==1186894== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-1186894-by-lroca-on-???
-==1186894== 
-==1186894== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==1186894== don't want to do, unless you know exactly what you're doing,
-==1186894== or are doing some strange experiment):
-==1186894==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=1186894 ...command...
-==1186894== 
-==1186894== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==1186894==   /path/to/gdb ./aesdsocket
-==1186894== and then give GDB the following command
-==1186894==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=1186894
-==1186894== --pid is optional if only one valgrind process is running
-==1186894== 
---1186894-- REDIR: 0x4022e20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
---1186894-- REDIR: 0x4022bf0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
---1186894-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
---1186894--    object doesn't have a symbol table
---1186894-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
---1186894--    object doesn't have a symbol table
-==1186894== WARNING: new redirection conflicts with existing -- ignoring it
---1186894--     old: 0x04022e20 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
---1186894--     new: 0x04022e20 (strlen              ) R-> (2007.0) 0x0483f060 strlen
---1186894-- REDIR: 0x401f600 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
---1186894-- REDIR: 0x4023380 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
---1186894-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
---1186894--   Considering /usr/lib/debug/.build-id/07/02430aef5fa3dda43986563e9ffcc47efbd75e.debug ..
---1186894--   .. build-id is valid
---1186894-- REDIR: 0x490d480 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c780 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d7b0 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c0a0 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c7e0 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490ec50 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x4929ce0 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x4929820 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d5e0 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d410 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c710 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c150 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d540 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x49297e0 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c670 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c230 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d800 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c1d0 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d950 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x492af50 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x4929860 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c820 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c100 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490c630 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x4915bb0 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d850 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d3d0 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x4929930 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490cae0 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d750 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d6f0 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490ec90 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x490d8a0 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
---1186894-- REDIR: 0x49f5730 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
---1186894-- REDIR: 0x49f8d90 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48428e0 (memset)
---1186894-- REDIR: 0x49070e0 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
---1186894-- REDIR: 0x49076d0 (libc.so.6:free) redirected to 0x483c9d0 (free)
---1186894-- REDIR: 0x4908b10 (libc.so.6:calloc) redirected to 0x483dce0 (calloc)
---1186894-- REDIR: 0x49f5540 (libc.so.6:__strchrnul_avx2) redirected to 0x4843540 (strchrnul)
---1186894-- REDIR: 0x49f5900 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
---1186894-- REDIR: 0x49f8910 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48429f0 (memmove)
---1186894-- REDIR: 0x490cfa0 (libc.so.6:__GI_strstr) redirected to 0x4843ca0 (__strstr_sse2)
---1186894-- REDIR: 0x49f1ef0 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48421e0 (bcmp)
---1186894-- REDIR: 0x49f0df0 (libc.so.6:__strcmp_avx2) redirected to 0x483fed0 (strcmp)
---1186894-- REDIR: 0x49f88f0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
---1186894-- REDIR: 0x4907e80 (libc.so.6:realloc) redirected to 0x483df30 (realloc)
---1186894-- REDIR: 0x49f7b30 (libc.so.6:__stpcpy_avx2) redirected to 0x4842300 (stpcpy)
-==1186894== 
-==1186894== HEAP SUMMARY:
-==1186894==     in use at exit: 0 bytes in 0 blocks
-==1186894==   total heap usage: 14 allocs, 14 frees, 15,130 bytes allocated
-==1186894== 
-==1186894== All heap blocks were freed -- no leaks are possible
-==1186894== 
-==1186894== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1211513== Memcheck, a memory error detector
+==1211513== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1211513== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==1211513== Command: ./aesdsocket
+==1211513== Parent PID: 1211511
+==1211513== 
+--1211513-- 
+--1211513-- Valgrind options:
+--1211513--    --error-exitcode=1
+--1211513--    --leak-check=full
+--1211513--    --show-leak-kinds=all
+--1211513--    --track-origins=yes
+--1211513--    --errors-for-leak-kinds=definite
+--1211513--    --verbose
+--1211513--    --log-file=valgrind-out.txt
+--1211513-- Contents of /proc/version:
+--1211513--   Linux version 5.15.0-122-generic (buildd@lcy02-amd64-106) (gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #132~20.04.1-Ubuntu SMP Fri Aug 30 15:50:07 UTC 2024
+--1211513-- 
+--1211513-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--1211513-- Page sizes: currently 4096, max supported 4096
+--1211513-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--1211513-- Reading syms from /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket
+--1211513-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--1211513--   Considering /usr/lib/debug/.build-id/db/0420f708b806cf03260aadb916c330049580b7.debug ..
+--1211513--   .. build-id is valid
+--1211513-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--1211513--    object doesn't have a symbol table
+--1211513--    object doesn't have a dynamic symbol table
+--1211513-- Scheduler: using generic scheduler lock implementation.
+--1211513-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==1211513== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-1211513-by-lroca-on-???
+==1211513== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-1211513-by-lroca-on-???
+==1211513== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-1211513-by-lroca-on-???
+==1211513== 
+==1211513== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==1211513== don't want to do, unless you know exactly what you're doing,
+==1211513== or are doing some strange experiment):
+==1211513==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=1211513 ...command...
+==1211513== 
+==1211513== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==1211513==   /path/to/gdb ./aesdsocket
+==1211513== and then give GDB the following command
+==1211513==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=1211513
+==1211513== --pid is optional if only one valgrind process is running
+==1211513== 
+--1211513-- REDIR: 0x4022e20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--1211513-- REDIR: 0x4022bf0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--1211513-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--1211513--    object doesn't have a symbol table
+--1211513-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--1211513--    object doesn't have a symbol table
+==1211513== WARNING: new redirection conflicts with existing -- ignoring it
+--1211513--     old: 0x04022e20 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--1211513--     new: 0x04022e20 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--1211513-- REDIR: 0x401f600 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--1211513-- REDIR: 0x4023380 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--1211513-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--1211513--   Considering /usr/lib/debug/.build-id/07/02430aef5fa3dda43986563e9ffcc47efbd75e.debug ..
+--1211513--   .. build-id is valid
+--1211513-- REDIR: 0x490d480 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c780 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d7b0 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c0a0 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c7e0 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490ec50 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x4929ce0 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x4929820 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d5e0 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d410 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c710 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c150 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d540 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x49297e0 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c670 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c230 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d800 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c1d0 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d950 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x492af50 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x4929860 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c820 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c100 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490c630 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x4915bb0 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d850 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d3d0 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x4929930 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490cae0 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d750 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d6f0 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490ec90 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x490d8a0 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--1211513-- REDIR: 0x49f5730 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
+--1211513-- REDIR: 0x49f5900 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
+--1211513-- REDIR: 0x49f8d90 (libc.so.6:__memset_avx2_unaligned_erms) redirected to 0x48428e0 (memset)
+--1211513-- REDIR: 0x49070e0 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--1211513-- REDIR: 0x49076d0 (libc.so.6:free) redirected to 0x483c9d0 (free)
+--1211513-- REDIR: 0x49f5540 (libc.so.6:__strchrnul_avx2) redirected to 0x4843540 (strchrnul)
+--1211513-- REDIR: 0x49f6e40 (libc.so.6:__strcpy_avx2) redirected to 0x483f090 (strcpy)
+--1211513-- REDIR: 0x4908b10 (libc.so.6:calloc) redirected to 0x483dce0 (calloc)
+--1211513-- REDIR: 0x49f8910 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48429f0 (memmove)
+--1211513-- REDIR: 0x490cfa0 (libc.so.6:__GI_strstr) redirected to 0x4843ca0 (__strstr_sse2)
+--1211513-- REDIR: 0x49f1ef0 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48421e0 (bcmp)
+--1211513-- REDIR: 0x49f0df0 (libc.so.6:__strcmp_avx2) redirected to 0x483fed0 (strcmp)
+--1211513-- REDIR: 0x49f88f0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
+--1211513-- REDIR: 0x4907e80 (libc.so.6:realloc) redirected to 0x483df30 (realloc)
+--1211513-- REDIR: 0x49f5310 (libc.so.6:__strchr_avx2) redirected to 0x483ebf0 (index)
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EF58: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x48E5D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1211513==    by 0x4984FF2: __vsyslog_internal (syslog.c:233)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109548: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EC0A: index (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x109583: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EC0E: index (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x109583: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== Syscall param socketcall.sendto(msg) points to uninitialised byte(s)
+==1211513==    at 0x498D750: send (send.c:28)
+==1211513==    by 0x4985159: __vsyslog_internal (syslog.c:290)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109603: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Address 0x4acd1df is 2,095 bytes inside a block of size 2,101 alloc'd
+==1211513==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x48F8747: _IO_mem_finish (memstream.c:131)
+==1211513==    by 0x48EEE40: fclose@@GLIBC_2.2.5 (iofclose.c:57)
+==1211513==    by 0x4984FFA: __vsyslog_internal (syslog.c:237)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109603: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+--1211513-- REDIR: 0x49f7b30 (libc.so.6:__stpcpy_avx2) redirected to 0x4842300 (stpcpy)
+==1211513== 
+==1211513== HEAP SUMMARY:
+==1211513==     in use at exit: 0 bytes in 0 blocks
+==1211513==   total heap usage: 183 allocs, 183 frees, 543,008 bytes allocated
+==1211513== 
+==1211513== All heap blocks were freed -- no leaks are possible
+==1211513== 
+==1211513== ERROR SUMMARY: 128 errors from 4 contexts (suppressed: 0 from 0)
+==1211513== 
+==1211513== 10 errors in context 1 of 4:
+==1211513== Syscall param socketcall.sendto(msg) points to uninitialised byte(s)
+==1211513==    at 0x498D750: send (send.c:28)
+==1211513==    by 0x4985159: __vsyslog_internal (syslog.c:290)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109603: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Address 0x4acd1df is 2,095 bytes inside a block of size 2,101 alloc'd
+==1211513==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x48F8747: _IO_mem_finish (memstream.c:131)
+==1211513==    by 0x48EEE40: fclose@@GLIBC_2.2.5 (iofclose.c:57)
+==1211513==    by 0x4984FFA: __vsyslog_internal (syslog.c:237)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109603: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== 
+==1211513== 19 errors in context 2 of 4:
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EC0E: index (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x109583: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== 
+==1211513== 19 errors in context 3 of 4:
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EC0A: index (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x109583: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== 
+==1211513== 80 errors in context 4 of 4:
+==1211513== Conditional jump or move depends on uninitialised value(s)
+==1211513==    at 0x483EF58: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1211513==    by 0x48E5D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1211513==    by 0x4984FF2: __vsyslog_internal (syslog.c:233)
+==1211513==    by 0x49854A9: syslog (syslog.c:117)
+==1211513==    by 0x109548: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==    by 0x109A1C: main (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513==  Uninitialised value was created by a stack allocation
+==1211513==    at 0x109491: log_client_message (in /home/lroca/Documentos/FORMACIONS/linux_introduction_to_buildroot/T2/embedded_linux-Assignment-3/server/aesdsocket)
+==1211513== 
+==1211513== ERROR SUMMARY: 128 errors from 4 contexts (suppressed: 0 from 0)

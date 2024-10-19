@@ -90,13 +90,13 @@ static void signal_handler( int signal_name){
 		syslog(LOG_INFO, "Caught signal, exiting");
 
 		if (socket_fd != -1){
-
+			shutdown(socket_fd, 2);
 			close(socket_fd	);
 	    
 	    }
 
 	    if (client_fd != -1){
-
+		 shutdown(client_fd, 2);
 	     close(client_fd);
 		
 		}
@@ -108,6 +108,42 @@ static void signal_handler( int signal_name){
 
 
 int main(int argc, char *argv[]) {
+
+
+	int c;
+
+	int enable_daemon = 0;
+
+	while ((c = getopt(argc, argv, "d")) != -1) {
+	  
+	    switch (c) {
+	  
+	      case 'd':
+	  
+	        enable_daemon = 1;
+	  
+	        break;
+	
+	  
+	    }
+	 }
+
+	if (enable_daemon) {
+		int pid = fork();
+
+		if (pid == -1) {
+			syslog(LOG_ERR, "Failed to create the daemon");
+			return -1;
+		} else if (pid == 0) {
+			syslog(LOG_INFO, "Daemon created succesfull");
+		}
+		else{
+			return 0;
+
+		}
+	}
+  
+
 
 	signal(SIGINT, signal_handler);
 
@@ -125,7 +161,7 @@ int main(int argc, char *argv[]) {
 
 	struct addrinfo *info_res;
 
-	socket_fd = socket(PF_INET,SOCK_STREAM,IPPROTO_TCP);
+	socket_fd = socket(AF_INET,SOCK_STREAM,0);
 
 	if (socket_fd == -1)
 
@@ -133,6 +169,13 @@ int main(int argc, char *argv[]) {
 		perror("server: get socket");
 		return -1;
 	}
+	int opt = 1;  // option for setsockopt
+
+
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+        perror("setsockopt failed");
+		return -1;
+    }
 	
 	if(getaddrinfo(NULL,"9000", &info, &info_res) != 0)
 	
@@ -144,7 +187,7 @@ int main(int argc, char *argv[]) {
 	if(bind(socket_fd, info_res->ai_addr  ,sizeof(struct sockaddr)) != 0)
 
 	{
-		perror("server: get address info");		
+		perror("server: bind socket");		
 		return -1;
 	}
 
