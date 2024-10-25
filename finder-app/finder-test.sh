@@ -10,7 +10,8 @@ WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
 CONFIGPATH=/etc/finder-app/
 BINPATH=/usr/bin
-username=$(cat conf/username.txt)
+username=$(cat /etc/finder-app/conf/username.txt)
+
 
 if [ $# -lt 3 ]
 then
