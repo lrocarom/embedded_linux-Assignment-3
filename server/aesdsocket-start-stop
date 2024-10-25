@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/sh
 
 case "$1" in
 	start)
@@ -9,7 +9,7 @@ case "$1" in
 		echo "Stopping the simple server"
 		start-stop-daemon -K --signal TERM -n aesdsocket
 		;;
+	*)
 	exit 1
 esac
-exit 0 
-
+exit 0
