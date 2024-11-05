@@ -50,7 +50,7 @@ LIST_HEAD(listhead, entry_list) client_list;
 
 
 
-int init_timer_log_time();
+int init_timer_log_time(timer_t *timer_id,pthread_mutex_t *a_mutex);
 void process_log_timer(int sig, siginfo_t *si, void *uc);
 int create_socket_server(int *socket_fd);
 int run_daemon();
@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
 	int rv_function;
 	int thread_rv;
  	struct  entry_list *new_entry;
+ 	timer_t timer_id;
 
 	//get parameters if user wants to run as daemon
 	while ((c = getopt(argc, argv, "d")) != -1) {
@@ -86,6 +87,10 @@ int main(int argc, char *argv[]) {
 			ERROR_LOG("Daemon error status: %d", rv_function);
 			return -1;
 		}
+		else{
+			INFO_LOG("Daemon status accepted: %d", rv_function);
+
+		}
   
   }
 
@@ -94,11 +99,10 @@ int main(int argc, char *argv[]) {
   signal(SIGTERM, signal_handler);
 
 
-	init_timer_log_time(&mutex_file);
 
 	//create a server socket file descriptor
  if ((rv_function = create_socket_server(&socket_fd)) !=  EXIT_SUCCESS){
-			ERROR_LOG("Creating socker server status: %d", rv_function);
+			ERROR_LOG("Creating socket server status: %d", rv_function);
 			return -1;
 	}
 
@@ -106,6 +110,8 @@ int main(int argc, char *argv[]) {
         ERROR_LOG("File mutex initialization error");
         return -1;
     } 
+  
+  init_timer_log_time(&timer_id,&mutex_file);
   
   LIST_INIT(&client_list);
 
@@ -117,43 +123,50 @@ int main(int argc, char *argv[]) {
 		new_entry->data->is_finished = false;
 		new_entry->data->mutex = &mutex_file;
 
-
 		struct sockaddr_in info_response;
 
-    socklen_t addr_len = sizeof(info_response);
+		socklen_t addr_len = sizeof(info_response);
 
-    new_entry->data->socket_fd = accept(socket_fd, (struct sockaddr *)&info_response, &addr_len);
+		new_entry->data->socket_fd = accept(socket_fd, (struct sockaddr *)&info_response, &addr_len);
 
 		if (new_entry->data->socket_fd == -1) {
 
-	    INFO_LOG("server: accepting new conection");
+		    ERROR_LOG("server: connection not accepted");
 
-	    continue; 
+		    free(new_entry->data);
+		    free(new_entry);
 
-    }
+		    continue; 
 
-   // Log accepted connection
-    char client_ip[INET_ADDRSTRLEN];
+		}
 
-    inet_ntop(AF_INET, &info_response.sin_addr, client_ip, INET_ADDRSTRLEN);
+		// Log accepted connection
+		char client_ip[INET_ADDRSTRLEN];
 
-    INFO_LOG( "Accepted connection from %s", client_ip);
+		inet_ntop(AF_INET, &info_response.sin_addr, client_ip, INET_ADDRSTRLEN);
 
-    
-    LIST_INSERT_HEAD(&client_list, new_entry, entries);
+		INFO_LOG( "Accepted connection from %s", client_ip);
 
-  	thread_rv  = pthread_create(&new_entry->thread, NULL, log_client_message,new_entry->data);
 
-  	if (thread_rv == 0) {
 
-	    INFO_LOG("server: accepting new conection");
+		thread_rv  = pthread_create(&new_entry->thread, NULL, log_client_message,new_entry->data);
 
-	    continue; 
+		if (thread_rv != 0) {
 
-    }
+		    INFO_LOG("server: log can not be created");
+
+		   	free(new_entry->data);
+		    free(new_entry);
+
+		    continue; 
+
+		}
+
+        LIST_INSERT_HEAD(&client_list, new_entry, entries);
+
 	 	INFO_LOG("Closing connection from %s", client_ip);
 
-	 	check_active_elements_list();
+	 	//check_active_elements_list();
 
 	}	
 
@@ -164,6 +177,8 @@ int main(int argc, char *argv[]) {
 	close(socket_fd);
 
 	remove_elements_list();	
+	timer_delete(timer_id);
+
 
 	INFO_LOG("Application closed");
 
@@ -244,7 +259,7 @@ int run_daemon(){
     }
 
     else {
-      exit(EXIT_FAILURE);
+      exit(EXIT_SUCCESS);
 
     }
 }
@@ -375,32 +390,33 @@ void remove_elements_list(){
 
 		struct entry_list *iter_entry;
 
+		struct entry_list *last_iter_entry;
+
 	  iter_entry = LIST_FIRST(&client_list);
 
 	  while(iter_entry != NULL)
 	  {
+	  		last_iter_entry = iter_entry;
+
 	  		pthread_join(iter_entry->thread, NULL); 
 
 	  		if(iter_entry->data != NULL ){
-						close(iter_entry->data->socket_fd);
+					close(iter_entry->data->socket_fd);
 	  				free(iter_entry->data);
 
 	  		}
 
-	  		free(iter_entry);
 
-
-	  		iter_entry = LIST_NEXT(iter_entry, entries);
+			iter_entry = LIST_NEXT(iter_entry, entries);
+	  		free(last_iter_entry);
 
 	  }
 
 }
 
 
-int init_timer_log_time(pthread_mutex_t *a_mutex){
+int init_timer_log_time(timer_t *timer_id,pthread_mutex_t *a_mutex){
 
-
-	timer_t timerid;
     struct sigevent sev;
     struct sigaction sa;
     struct itimerspec its;
@@ -422,7 +438,7 @@ int init_timer_log_time(pthread_mutex_t *a_mutex){
     sev.sigev_value.sival_ptr = &timer_data;
 
     // Crear el temporizador
-    if (timer_create(CLOCKID, &sev, &timerid) == -1) {
+    if (timer_create(CLOCKID, &sev, timer_id) == -1) {
         exit(EXIT_FAILURE);
     }
 
@@ -433,7 +449,7 @@ int init_timer_log_time(pthread_mutex_t *a_mutex){
     its.it_interval.tv_nsec = 0;
 
     // Iniciar el temporizador
-    if (timer_settime(timerid, 0, &its, NULL) == -1) {
+    if (timer_settime(*timer_id, 0, &its, NULL) == -1) {
         exit(EXIT_FAILURE);
     }
 
@@ -470,7 +486,10 @@ void process_log_timer(int sig, siginfo_t *si, void *uc) {
 	}	
 
 	fwrite(outstr, strlen(outstr), 1, fp);
-  fflush(fp);
+    fflush(fp);
+
+  	fclose(fp); // close the file
+
 
 
 }
