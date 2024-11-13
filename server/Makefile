@@ -1,5 +1,5 @@
 SHELL:= /bin/sh
-CC := gcc
+CC ?= $(CROSS_COMPILE)gcc
 all: aesdsocket
 
 
