@@ -1,13 +1,17 @@
 SHELL:= /bin/sh
 CC ?= $(CROSS_COMPILE)gcc
+
+CFLAGS ?= -g -Wall -Werror
+LDFLAGS ?= -pthread -lrt 
+
 all: aesdsocket
 
 
 aesdsocket: aesdsocket.o
-	$(CROSS_COMPILE)$(CC)  -g  -pthread -Wall -Werror -I/ aesdsocket.o -o aesdsocket -lrt
+	$(CC)  -g  $(CFLAGS) -I/ aesdsocket.o -o aesdsocket $(LDFLAGS)
 
 aesdsocket.o: aesdsocket.c
-	$(CROSS_COMPILE)$(CC) -g -o  -pthread -Wall -Werror -c -o aesdsocket.o aesdsocket.c -lrt
+	$(CC) -g -o  $(CFLAGS) -c -o aesdsocket.o aesdsocket.c $(LDFLAGS)
 
 clean:
 	rm -f *.o *.elf *.map aesdsocket
